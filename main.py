@@ -6,6 +6,12 @@ import time
 cursor_position_log = []
 duration = 0.5
 
+# Test variables
+key_names = ["zero.png", "one.png", "two.png", "three.png", "four.png", 
+            "five.png", "six.png", "seven.png", "eight.png", "nine.png",
+            "plus.png", "minus.png", "times.png", "divide.png", "equal.png", 
+            "negate.png"]
+
 
 # Utility functions
 def log_cursor_location():
@@ -17,6 +23,26 @@ def press_key(key_name):
 
 def delay(seconds):
     time.sleep(duration)
+
+def hover(key_location, duration):
+    x_coordinate, y_coordinate = key_location
+
+    pyautogui.moveTo(x_coordinate, y_coordinate, duration)
+
+# Accessor functions
+def get_key_location(image_source):
+    return pyautogui.locateOnScreen(image_source)
+
+def get_centered_key_location(key_location):
+    return pyautogui.center(key_location)
+
+# Test functions
+def test_all_keys(key_names):
+    for key in key_names:
+        key_location = get_key_location("images/" + key)
+        centered_key_location = get_centered_key_location(key_location)
+
+        hover(centered_key_location, duration)
 
 
 log_cursor_location()
@@ -34,16 +60,8 @@ input = pyautogui.prompt(text = "Enter an arithmetic expression: ",
 print(input)
 """
 
-# pyautogui.screenshot("screenshot1.png")
+# pyautogui.screenshot("images/screenshot1.png")
 
-button_7_location = pyautogui.locateOnScreen("images/seven.png")
-print(button_7_location)
-
-button_7_point = pyautogui.center(button_7_location)
-print(button_7_point)
-
-button_7_x, button_7_y = button_7_point
-pyautogui.moveTo(button_7_x, button_7_y, duration)
-pyautogui.click()
+test_all_keys(key_names)
 
 print(cursor_position_log)
