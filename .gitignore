@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Custom
+# Do not include .png files located in
+# the root directory. This is for privacy
+# and security concerns.
+*.png
