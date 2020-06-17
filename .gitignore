@@ -133,3 +133,4 @@ dmypy.json
 # the root directory. This is for privacy
 # and security concerns.
 *.png
+*.img
