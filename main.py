@@ -4,16 +4,30 @@ import time
 
 # Global variables
 cursor_position_log = []
-duration = 0.5
+delay_duration = 0.5
 
 user_input = ""
 calculation_instructions = []
 
 # Test variables
-key_file_names = ["zero.png", "one.png", "two.png", "three.png", "four.png", 
-            "five.png", "six.png", "seven.png", "eight.png", "nine.png",
-            "plus.png", "minus.png", "times.png", "divide.png", "equal.png", 
-            "negate.png"]
+key_file_names = {
+    "0": "zero.png",
+    "1": "one.png", 
+    "2": "two.png",
+    "3": "three.png",
+    "4": "four.png",
+    "5": "five.png",
+    "6": "six.png",
+    "7": "seven.png",
+    "8": "eight.png",
+    "9": "nine.png",
+    "!": "negate.png",
+    "+": "plus.png",
+    "-": "minus.png",
+    "*": "times.png",
+    "/": "divide.png",
+    "=": "equal.png"
+}
 
 
 # Main functions
@@ -30,6 +44,18 @@ def parse_user_input(user_input):
     for character in user_input:
         if character != " ":
             calculation_instructions.append(character)
+    
+    calculation_instructions.append("=")
+
+
+def do_unorthodox_computation(calculation_instructions):
+    for character in calculation_instructions:
+        key_location = get_key_location("images/" + key_file_names[character])
+        centered_key_location = get_centered_key_location(key_location)
+
+        hover(centered_key_location, delay_duration)
+        pyautogui.click()
+
 
 # Utility functions
 def log_cursor_location():
@@ -40,7 +66,7 @@ def press_key(key_name):
     pyautogui.keyUp(key_name)
 
 def delay(seconds):
-    time.sleep(duration)
+    time.sleep(delay_duration)
 
 def hover(key_location, duration):
     x_coordinate, y_coordinate = key_location
@@ -62,7 +88,7 @@ def test_all_keys(key_file_names):
 
         cursor_position_log.append(centered_key_location)
 
-        hover(centered_key_location, duration)
+        hover(centered_key_location, delay_duration)
 
 
 # Main code
@@ -86,9 +112,9 @@ print(input)
 # test_all_keys(key_file_names)
 
 ask_mathematical_expression()
-print(user_input)
-
 parse_user_input(user_input)
+do_unorthodox_computation(calculation_instructions)
+
 print(calculation_instructions)
 
 pyautogui.alert(text = cursor_position_log, 
